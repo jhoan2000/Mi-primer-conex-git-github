@@ -13,9 +13,18 @@ class sing_up:
         self.conexión = sqlite3.connect(self.BD) # Se conecta con la BD
         self.cursorBD = self.conexión.cursor() # Establece el cursor
         self.Tabla = "REGISTRE_USERS" # Tabla de Usuarios
-        self.tablaExiste(self.Tabla) # Chequea si la tabla exista en caso de que no se creá 
 
+        #------------------------------------------
+        self.tablaExiste(self.Tabla) # Chequea si la tabla exista en caso de que no se creá 
         self.password_hash = self.hashed_password(password)
+        #..............................................
+        self.add_users(name,
+            last_name,
+            email,
+            birth_date,
+            phone_num,
+            self.password_hash)
+
 
     def tablaExiste(self, nombreTabla):
         # ---Chequea si existe un objeto tipo TABLA con el nombre predeterminado
@@ -35,9 +44,43 @@ class sing_up:
                             ) '''.format(nombreTabla))
             return False
 
+    def add_users(
+            self, name, last_name, email,
+            birth_date, phone_num, password_hash):
+        print("here ", password_hash)
+        self.cursorBD.execute(
+            '''
+            INSERT INTO '{}'
+            (
+                name,
+                last_name,
+                email,
+                birth_date,
+                phone_num,
+                password_hash
+            )
+            VALUES ('{}', '{}', '{}', '{}' , '{}', '{}')
+            '''.format
+            (
+                self.Tabla, name, last_name,
+                email, birth_date, phone_num, password_hash
+            )
+        )
+        self.conexión.commit()
+    
+    def selccionarUsuarios(self):
+        self.cursorBD.execute(''' SELECT * FROM '{}' '''.format(self.Tabla))
+        lista = []
+        
+        for filaEncontrada in self.cursorBD.fetchall():
+            lista.append(filaEncontrada)
+        print("Lista:", lista)
+        return lista
+    
     def hashed_password(self, password):
-        self.haspass =bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-        print("Contraseña hasheada: ", self.haspass)
+        haspass =bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+        print("Contraseña hasheada: ", haspass, type(haspass))
+        return haspass
     def check_password(self, password):
         self.status_paswword = bcrypt.checkpw(password.encode(), self.haspass)
 
@@ -47,3 +90,5 @@ prueba = sing_up("Yhoan Smith", "Mosquera Peñaloza",
                  "Jhoanpa57@gmail.com",
                  "27/20/2000", 3128628658,
                  "Jhosmope27") 
+
+prueba.selccionarUsuarios()
