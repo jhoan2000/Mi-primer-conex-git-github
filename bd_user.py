@@ -1,29 +1,17 @@
 import sqlite3
-import bcrypt
+from datetime import datetime
 
-
-class sing_up:
-    def __init__(self, name,
-            last_name,
-            email,
-            birth_date,
-            phone_num,
-            password ):
+class Ventas:
+    def __init__(self, cliente, productos):
         self.BD = "BaseDeDatos" # Nombre de BD
         self.conexión = sqlite3.connect(self.BD) # Se conecta con la BD
         self.cursorBD = self.conexión.cursor() # Establece el cursor
-        self.Tabla = "REGISTRE_USERS" # Tabla de Usuarios
+        self.Tabla = "Ventas" # Tabla de ventas
 
         #------------------------------------------
         self.tablaExiste(self.Tabla) # Chequea si la tabla exista en caso de que no se creá 
-        self.password_hash = self.hashed_password(password)
         #..............................................
-        self.add_users(name,
-            last_name,
-            email,
-            birth_date,
-            phone_num,
-            self.password_hash)
+        self.add_users(cliente)
 
 
     def tablaExiste(self, nombreTabla):
@@ -86,9 +74,9 @@ class sing_up:
 
 
         print("Estado de contraseña : ", self.status_paswword)
+        
 prueba = sing_up("Yhoan Smith", "Mosquera Peñaloza", 
                  "Jhoanpa57@gmail.com",
-                 "27/20/2000", 3136993073,
+                 "27/20/2000", 3128628658,
                  "Jhosmope27") 
-print("Hi")
 
