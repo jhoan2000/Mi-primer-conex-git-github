@@ -64,19 +64,10 @@ class Ventas:
             lista.append(filaEncontrada)
         print("Lista:", lista)
         return lista
-    
-    def hashed_password(self, password):
-        haspass =bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-        print("Contraseña hasheada: ", haspass, type(haspass))
-        return haspass
-    def check_password(self, password):
-        self.status_paswword = bcrypt.checkpw(password.encode(), self.haspass)
+   
 
-
-        print("Estado de contraseña : ", self.status_paswword)
-        
-prueba = sing_up("Yhoan Smith", "Mosquera Peñaloza", 
-                 "Jhoanpa57@gmail.com",
-                 "27/20/2000", 3128628658,
-                 "Jhosmope27") 
+# prueba = sing_up("Yhoan Smith", "Mosquera Peñaloza", 
+#                  "Jhoanpa57@gmail.com",
+#                  "27/20/2000", 3128628658,
+#                  "Jhosmope27") 
 
